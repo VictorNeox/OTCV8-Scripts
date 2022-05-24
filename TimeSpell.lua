@@ -186,7 +186,7 @@ MainWindow
     anchors.left: prev.left
     margin-top: 10
     margin-left: 5
-    text: *Spell Name: Orange message on top of the character
+    text: *Spell Name: Orange message above the char
 
   Label 
     anchors.top: prev.bottom
