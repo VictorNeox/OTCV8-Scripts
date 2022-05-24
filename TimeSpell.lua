@@ -171,7 +171,7 @@ MainWindow
     anchors.right: parent.right
     anchors.top: parent.top
     text-align: center
-    text: Informacoes adicionais
+    text: Additional Information
 
   HorizontalSeparator
     anchors.left: prev.left
@@ -186,31 +186,31 @@ MainWindow
     anchors.left: prev.left
     margin-top: 10
     margin-left: 5
-    text: *Spell Name: Spell que sobe no personagem
+    text: *Spell Name: Orange message on top of the character
 
   Label 
     anchors.top: prev.bottom
     anchors.left: prev.left
     margin-top: 10
-    text: *On Screen: Como ira aparecer na tela
+    text: *On Screen: How it will appear on the screen
 
   Label 
     anchors.top: prev.bottom
     anchors.left: prev.left
     margin-top: 10
-    text: *Active Time: Tempo ativo
+    text: *Active Time: Total time the spell is active
 
   Label 
     anchors.top: prev.bottom
     anchors.left: prev.left
     margin-top: 10
-    text: *Total Time: Tempo de recarga total
+    text: *Total Time: Total Cooldown time
 
   Label 
     anchors.top: prev.bottom
     anchors.left: prev.left
     margin-top: 10
-    text: *Pos X/Y: Posicao no eixo X e Y
+    text: *Pos X/Y: Position on the X and Y axis
 
   HorizontalSeparator
     id: separator
@@ -249,7 +249,7 @@ if g_resources.fileExists(timeSpellFile) then
       return json.decode(g_resources.readFileContents(timeSpellFile)) 
     end)
     if not status then
-      return onError("Erro carregando arquivo (" .. timeSpellFile .. "). Para consertar o problema, exclua TimeSpell.json. Detalhes: " .. result)
+      return onError("Error loading file (" .. timeSpellFile .. "). To fix the problem, delete TimeSpell.json. Details:" .. result)
     end
     TimeSpellConfig = result
     if (type(TimeSpellConfig.spells) ~= 'table') then
@@ -272,11 +272,11 @@ function timeSpellConfigSave()
     end);
 
     if not status then
-        return onError("Erro salvando configuração. Detalhes: " .. result);
+        return onError("Error saving configuration. Details: " .. result);
     end
       
     if result:len() > 100 * 1024 * 1024 then
-        return onError("Arquivo de configuração acima de 100MB, não será salvo.");
+        return onError("Configuration file over 100MB will not be saved.");
     end
 
     g_resources.writeFileContents(timeSpellFile, result);
@@ -364,37 +364,24 @@ MainPanel.addSpell.onClick = function(widget)
     local posY = tonumber(MainPanel.posY:getText()) or 39;
 
     if (not totalTime) then
-        return warn('TimeSpell: Digite um cooldown valido.');
+        return warn('TimeSpell: Enter a valid cooldown.');
     end
 
     if (not posX) then
-        return warn('TimeSpell: Digite uma posicao X valida.');
+        return warn('TimeSpell: Enter a valid Y position.');
     end
 
     if (not posY) then
-        return warn('TimeSpell: Digite uma posicao Y valida.');
+        return warn('TimeSpell: Enter a valid Y position.');
     end
 
     if (spellName:len() == 0) then
-        return warn('TimeSpell: Digite uma spell valido.');
+        return warn('TimeSpell: Enter a valid spell.');
     end
 
     if (onScreenName:len() == 0) then
-        return warn('TimeSpell: Coloque um nome em OnScreen.');
+        return warn('TimeSpell: Put a name on OnScreen.');
     end
-
-    -- table.insert(TimeSpellConfig.spells, { 
-    --   index = #TimeSpellConfig.spells+1, 
-    --   spell = spellName, 
-    --   onScreen = onScreenName, 
-    --   activeTime = activeTime,
-    --   activeCd = 0,
-    --   totalTime = totalTime,
-    --   totalCd = 0,
-    --   x = posX,
-    --   y = posY,
-    --   enabled = true,
-    -- });
 
     TimeSpellConfig.spells[spellName] = { 
       index = #TimeSpellConfig.spells+1, 
